@@ -1,0 +1,7 @@
+import { Request, Response, NextFunction } from 'express';
+
+const auth = (req: Request, res: Response, next: NextFunction): void => {
+    return req.isAuthenticated() ? next() : res.redirect('/auth/failure');
+};
+
+export default auth;
