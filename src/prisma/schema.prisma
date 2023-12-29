@@ -6,66 +6,77 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 //User model
 model User {
-  id Int @id @default(autoincrement())
-  first_name String @db.VarChar(255)
-  last_name String @db.VarChar(255)
-  email String @unique @db.VarChar(255)
-  username String @unique @db.VarChar(255)
-  google_provider_id String @db.VarChar(255)
-  profile_image String @db.VarChar(255)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  password String @db.VarChar(255)
+  id                 Int        @id @default(autoincrement())
+  first_name         String     @db.VarChar(255)
+  last_name          String     @db.VarChar(255)
+  email              String     @unique @db.VarChar(255)
+  username           String     @unique @db.VarChar(255)
+  google_provider_id String     @db.VarChar(255)
+  profile_image      String     @db.VarChar(255)
+  created_at         DateTime   @default(now())
+  updated_at         DateTime   @updatedAt
+  password           String     @db.VarChar(255)
+  Comments           Comments[]
+  Votes              Votes[]
+  Projects           Projects[]
 }
+
 //Comments model
 model Comments {
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int
-  project Project @relation(fields: [project_id], references: [id])
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int
+  project    Projects @relation(fields: [project_id], references: [id])
   project_id Int
-  body String @db.VarChar(2000)
+  body       String   @db.VarChar(2000)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+//votes model
 model Votes {
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int
-  project Project @relation(fields: [project_id], references: [id])
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int
+  project    Projects @relation(fields: [project_id], references: [id])
   project_id Int
-  up Boolean 
+  up         Boolean
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
-model Projects {
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int
-  title String @db.VarChar(255)
-  description String @db.VarChar(2000)
-  status projectStatus @default(NOT STARTED)
-  image_links String[] @db.VarChar(1000)
-  github_link String? @db.VarChar(500)
-  live_link String? @db.VarChar(500)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  accepting_collaborators Boolean @default(true)
-}
+
+//enum for projects
 enum projectStatus {
-  NOT STARTED
-  IN PROGRESS
+  NOT_STARTED
+  IN_PROGRESS
   COMPLETED
 }
-model ProjectTags {
-  project Project @relation(fields: [project_id], references: [id])
-  project_id Int
-  tag Tag @relation(fields: [tag_id], references: [id])
-  tag_id Int
+
+//projects model
+model Projects {
+  id                      Int           @id @default(autoincrement())
+  user                    User          @relation(fields: [user_id], references: [id])
+  user_id                 Int
+  title                   String        @db.VarChar(255)
+  description             String        @db.VarChar(2000)
+  status                  projectStatus @default(NOT_STARTED)
+  image_links             String[]
+  github_link             String?       @db.VarChar(500)
+  live_link               String?       @db.VarChar(500)
+  created_at              DateTime      @default(now())
+  updated_at              DateTime      @updatedAt
+  tags                    Tags[]        @relation
+  accepting_collaborators Boolean       @default(true)
+  Comments                Comments[]
+  Votes                   Votes[]
 }
+
+//tags model
 model Tags {
-  id Int @id @default(autoincrement())
-  name String @db.VarChar(255)
+  id       Int        @id @default(autoincrement())
+  name     String     @db.VarChar(255)
+  projects Projects[] @relation
 }
