@@ -21,7 +21,7 @@ model User {
   isVerified Boolean @default(false)
 }
 //Comments model
-model Comment {
+model Comments {
   id Int @id @default(autoincrement())
   user User @relation(fields: [user_id], references: [id])
   user_id Int
@@ -31,7 +31,7 @@ model Comment {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
-model Vote {
+model Votes {
   id Int @id @default(autoincrement())
   user User @relation(fields: [user_id], references: [id])
   user_id Int
@@ -41,7 +41,7 @@ model Vote {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
-model Project{
+model Projects {
   id Int @id @default(autoincrement())
   user User @relation(fields: [user_id], references: [id])
   user_id Int
@@ -59,4 +59,10 @@ enum projectStatus {
   NOT STARTED
   IN PROGRESS
   COMPLETED
+}
+model ProjectTags {
+  project Project @relation(fields: [project_id], references: [id])
+  project_id Int
+  tag Tag @relation(fields: [tag_id], references: [id])
+  tag_id Int
 }
