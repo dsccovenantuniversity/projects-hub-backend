@@ -18,7 +18,6 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   password String @db.VarChar(255)
-  isVerified Boolean @default(false)
 }
 //Comments model
 model Comments {
@@ -65,4 +64,8 @@ model ProjectTags {
   project_id Int
   tag Tag @relation(fields: [tag_id], references: [id])
   tag_id Int
+}
+model Tags {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(255)
 }
