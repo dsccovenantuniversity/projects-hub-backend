@@ -4,9 +4,9 @@ const createUser = async (userData) => {
   //receives an object data
   try {
     await prisma.user.create({
-      data: userData,
+      data:  userData
     });
-    return "user created successfully";
+    return "user registered successfully";
   } catch (error) {
     return error;
   }
@@ -50,19 +50,19 @@ const updateUserDetails = async (id, data) => {
     return error;
   }
 };
-const deleteUser = async (id, data) => {
+const deleteUser = async (id) => {
   try {
     const user = await prisma.user.delete({
       where: {
         id: id,
       },
-      data: { data },
     });
     return user;
   } catch (error) {
     return error;
   }
 };
+   
 module.exports = {
   createUser,
   findUserbyMail,
