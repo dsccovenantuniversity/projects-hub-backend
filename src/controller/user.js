@@ -29,11 +29,44 @@ const findUserbyId = async (id) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        google_provider_id: id,
+        id: id,
       },
     });
     return user;
   } catch (error) {
     return error;
   }
+};
+const updateUserDetails = async (id, data) => {
+  try {
+    const user = await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: { data },
+    });
+    return user;
+  } catch (error) {
+    return error;
+  }
+};
+const deleteUser = async (id, data) => {
+  try {
+    const user = await prisma.user.delete({
+      where: {
+        id: id,
+      },
+      data: { data },
+    });
+    return user;
+  } catch (error) {
+    return error;
+  }
+};
+module.exports = {
+  createUser,
+  findUserbyMail,
+  findUserbyId,
+  updateUserDetails,
+  deleteUser,
 };
