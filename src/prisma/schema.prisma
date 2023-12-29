@@ -41,7 +41,20 @@ model Vote {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
-
+model Project{
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  title String @db.VarChar(255)
+  description String @db.VarChar(2000)
+  status projectStatus @default(NOT STARTED)
+  image_links String[] @db.VarChar(1000)
+  github_link String? @db.VarChar(500)
+  live_link String? @db.VarChar(500)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  accepting_collaborators Boolean @default(true)
+}
 enum projectStatus {
   NOT STARTED
   IN PROGRESS
