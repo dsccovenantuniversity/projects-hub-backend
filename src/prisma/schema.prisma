@@ -41,3 +41,9 @@ model Vote {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+enum projectStatus {
+  NOT STARTED
+  IN PROGRESS
+  COMPLETED
+}
