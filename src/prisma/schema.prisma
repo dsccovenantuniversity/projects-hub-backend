@@ -15,8 +15,8 @@ model User {
   username String @unique @db.VarChar(255)
   google_provider_id String @db.VarChar(255)
   profile_image String @db.VarChar(255)
-  created_at String @db.VarChar(255)
-  updated_at String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
   password String @db.VarChar(255)
   isVerified Boolean @default(false)
 }
@@ -28,6 +28,6 @@ model Comment {
   project Project @relation(fields: [project_id], references: [id])
   project_id Int
   body String @db.VarChar(2000)
-  created_at String @db.VarChar(255)
-  updated_at String @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
