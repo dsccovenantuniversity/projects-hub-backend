@@ -3,3 +3,7 @@ export interface createCommentDto {
     projectId: number,
     body: string
 }
+export interface updateCommentByIdDto {
+    commentId: number, 
+    body: string
+}
