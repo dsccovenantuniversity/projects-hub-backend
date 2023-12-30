@@ -1,18 +1,18 @@
 import { prisma } from '../config/prisma';
 
-const createUser = async (userData: any) => {
+export const createUser = async (userData: any) => {
     //receives an object data
     try {
-        await prisma.user.create({
+        const user = await prisma.user.create({
             data: userData,
         });
-        return 'user registered successfully';
+        return user;
     } catch (error) {
         return error;
     }
 };
 
-const findUserbyMail = async (email: string) => {
+export const findUserbyMail = async (email: string) => {
     try {
         const user = await prisma.user.findUnique({
             where: {
@@ -25,7 +25,7 @@ const findUserbyMail = async (email: string) => {
     }
 };
 
-const findUserbyId = async (id: number) => {
+export const findUserbyId = async (id: number) => {
     try {
         const user = await prisma.user.findUnique({
             where: {
@@ -38,7 +38,20 @@ const findUserbyId = async (id: number) => {
     }
 };
 
-const getAllUsers = async () => {
+export const findUserbyGoogleId = async (id: number) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                google_provider_id: id,
+            },
+        });
+        return user;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const getAllUsers = async () => {
     try {
         const user = await prisma.user.findMany({
             select: { username: true },
@@ -49,7 +62,7 @@ const getAllUsers = async () => {
     }
 };
 
-const updateUserDetails = async (id: number, data: any) => {
+export const updateUserDetails = async (id: number, data: any) => {
     try {
         const user = await prisma.user.update({
             where: {
@@ -62,7 +75,7 @@ const updateUserDetails = async (id: number, data: any) => {
         return error;
     }
 };
-const deleteUser = async (id: number) => {
+export const deleteUser = async (id: number) => {
     try {
         const user = await prisma.user.delete({
             where: {
@@ -73,12 +86,4 @@ const deleteUser = async (id: number) => {
     } catch (error) {
         return error;
     }
-};
-
-module.exports = {
-    createUser,
-    findUserbyMail,
-    findUserbyId,
-    updateUserDetails,
-    deleteUser,
 };
