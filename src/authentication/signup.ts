@@ -1,6 +1,10 @@
-import { Request, Response } from 'express';
+import passport from 'passport';
 
-const signupAuth = async (req: Request, res: Response) => {
-    if (req.body.username && req.body.email && req.body.password) {
-    }
+export const googleSignup = async () => {
+    passport.authenticate('google', { scope: ['email', 'profile'] });
+};
+export const googleSignupCallback = async () => {
+    passport.authenticate('google', {
+        successRedirect: '/',
+    });
 };
