@@ -1,7 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
-import { googleStrategy } from './src/config/passport_google_oauth2';
+import './src/config/passport_google_oauth2';
 import logger from 'morgan';
 import signupRouter from './src/routes/signup';
 
@@ -15,11 +15,11 @@ app.use(
         secret: process.env.SESSION_SECRET ?? 'default_secret',
         resave: false,
         saveUninitialized: true,
-        cookie: { secure: false },
+        cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
         // store: process.env.SESSION_DB_URL ?? '',
     }),
 );
-googleStrategy(passport);
+
 app.use(passport.initialize());
 app.use(passport.session());
 if (process.env.ENV === 'development') {
