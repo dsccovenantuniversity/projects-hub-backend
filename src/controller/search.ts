@@ -1,6 +1,6 @@
 import { prisma } from '../config/prisma';
 
-const searchAllUsers = async (searchQuery: string) => {
+export const searchAllUsers = async (searchQuery: string) => {
     //gets all users' and sends only the username
     try {
         const user = await prisma.user.findMany({
@@ -18,4 +18,3 @@ const searchAllUsers = async (searchQuery: string) => {
         return error;
     }
 };
-module.exports = { searchAllUsers };

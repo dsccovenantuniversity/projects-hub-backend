@@ -57,7 +57,7 @@ export const getAllUsers = async () => {
         const user = await prisma.user.findMany({
             select: { username: true },
         });
-        return user;
+        console.log(user);
     } catch (error) {
         return error;
     }
@@ -90,13 +90,4 @@ export const deleteUser = async (id: number) => {
     } catch (error) {
         return error;
     }
-};
-
-module.exports = {
-    createUser,
-    findUserbyMail,
-    findUserbyId,
-    updateUserDetails,
-    deleteUser,
-    getAllUsers,
 };
