@@ -14,11 +14,10 @@ model User {
   last_name          String     @db.VarChar(255)
   email              String     @unique @db.VarChar(255)
   username           String     @unique @db.VarChar(255)
-  google_provider_id String     @db.VarChar(255)
+  google_provider_id String     @unique @db.VarChar(255)
   profile_image      String     @db.VarChar(255)
   created_at         DateTime   @default(now())
   updated_at         DateTime   @updatedAt
-  password           String     @db.VarChar(255)
   Comments           Comments[]
   Votes              Votes[]
   Projects           Projects[]
