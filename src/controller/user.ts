@@ -57,7 +57,7 @@ export const getAllUsers = async () => {
         const user = await prisma.user.findMany({
             select: { username: true },
         });
-        console.log(user);
+        return user;
     } catch (error) {
         return error;
     }
