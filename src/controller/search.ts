@@ -13,7 +13,7 @@ export const searchAllUsers = async (searchQuery: string) => {
             take: 10,
             select: { username: true },
         });
-        console.log(user);
+        return user ;
     } catch (error) {
         return error;
     }
