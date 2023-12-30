@@ -1,7 +1,7 @@
 import { prisma } from '../config/prisma';
 import { createCommentDto, updateCommentByIdDto } from './dtos/comment.dto';
 
-const createComment = async (commentData: createCommentDto) => {
+export const createComment = async (commentData: createCommentDto) => {
     const body = commentData.body;
     try {
         const comment = await prisma.comments.create({
@@ -20,7 +20,7 @@ const createComment = async (commentData: createCommentDto) => {
         return error;
     }
 };
-const getCommentByProjectId = async (id: number) => {
+export const getCommentByProjectId = async (id: number) => {
     const comments = await prisma.comments.findMany({
         where: {
             project_id: id,
@@ -28,7 +28,7 @@ const getCommentByProjectId = async (id: number) => {
     });
     return comments;
 };
-const updateComment = async (data: updateCommentByIdDto) => {
+export const updateComment = async (data: updateCommentByIdDto) => {
     try {
         const comment = await prisma.comments.update({
             where: {
@@ -43,7 +43,7 @@ const updateComment = async (data: updateCommentByIdDto) => {
         return error;
     }
 };
-const deleteComment = async (id: number) => {
+export const deleteComment = async (id: number) => {
     try {
         const comment = await prisma.comments.delete({
             where: {
@@ -54,10 +54,4 @@ const deleteComment = async (id: number) => {
     } catch (error) {
         return error;
     }
-};
-exports = {
-    createComment,
-    getCommentByProjectId,
-    updateComment,
-    deleteComment,
 };
