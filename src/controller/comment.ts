@@ -15,7 +15,7 @@ export const createComment = async (commentData: createCommentDto) => {
                 },
             },
         });
-        console.log(comment);
+        return comment;
     } catch (error) {
         return error;
     }
