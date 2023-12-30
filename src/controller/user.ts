@@ -1,6 +1,7 @@
 import { prisma } from '../config/prisma';
+import { createUserDto, updateUserDetailsDto } from './dtos/user.dto';
 
-export const createUser = async (userData: any) => {
+export const createUser = async (userData: createUserDto) => {
     //receives an object data
     try {
         const user = await prisma.user.create({
@@ -38,7 +39,7 @@ export const findUserbyId = async (id: number) => {
     }
 };
 
-export const findUserbyGoogleId = async (id: number) => {
+export const findUserbyGoogleId = async (id: string) => {
     try {
         const user = await prisma.user.findUnique({
             where: {
@@ -62,13 +63,16 @@ export const getAllUsers = async () => {
     }
 };
 
-export const updateUserDetails = async (id: number, data: any) => {
+export const updateUserDetails = async (
+    id: number,
+    userData: updateUserDetailsDto,
+) => {
     try {
         const user = await prisma.user.update({
             where: {
                 id: id,
             },
-            data: data,
+            data: userData,
         });
         return user;
     } catch (error) {
