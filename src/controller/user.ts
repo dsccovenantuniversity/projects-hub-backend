@@ -79,7 +79,7 @@ export const updateUserDetails = async (
                 updated_at: new Date(currentDate.getTime() + 60 * 60 * 1000),
             },
         });
-        console.log(user);
+        return user;
     } catch (error) {
         return error;
     }
