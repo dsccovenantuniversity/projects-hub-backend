@@ -68,13 +68,18 @@ export const updateUserDetails = async (
     data: updateUserDetailsDto,
 ) => {
     try {
+        const currentDate = new Date();
+
         const user = await prisma.user.update({
             where: {
                 id: id,
             },
-            data: data,
+            data: {
+                ...data,
+                updated_at: new Date(currentDate.getTime() + 60 * 60 * 1000),
+            },
         });
-        return user;
+        console.log(user);
     } catch (error) {
         return error;
     }
