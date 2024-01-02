@@ -1,17 +1,17 @@
 import { prisma } from '../config/prisma';
 import { createCommentDto, updateCommentByIdDto } from './dtos/comment.dto';
 
-export const createComment = async (commentData: createCommentDto) => {
-    const body = commentData.body;
+export const createComment = async (data: createCommentDto) => {
+    const body = data.body;
     try {
         const comment = await prisma.comments.create({
             data: {
                 body,
                 user: {
-                    connect: { id: commentData.userId },
+                    connect: { id: data.userId },
                 },
                 project: {
-                    connect: { id: commentData.projectId },
+                    connect: { id: data.projectId },
                 },
             },
         });
