@@ -1,8 +1,11 @@
 {
   "scripts": {
     "build": "tsc",
-    "start": "tsc && node lib/index.js",
-    "start:dev": "nodemon"
+    "start": "npm run prismaGenerate && tsc && node lib/index.js",
+    "start:dev": "nodemon",
+    "prismaMigrate": "prisma migrate dev",
+    "prismaGenerate": "prisma generate dev",
+    "dbPush": "prisma db push"
   },
   "dependencies": {
     "@prisma/client": "^5.7.1",
