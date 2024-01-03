@@ -1,10 +1,18 @@
+import passport from 'passport';
 import { Router } from 'express';
-import { googleSignup, googleSignupCallback } from '../authentication/signup';
 
 const router = Router();
 
-router.get('/google', googleSignup);
+router.get(
+    '/google',
+    passport.authenticate('google', { scope: ['email', 'profile'] }),
+);
 
-router.get('/google/callback', googleSignupCallback);
+router.get(
+    '/google/callback',
+    passport.authenticate('google', {
+        successRedirect: '/',
+    }),
+);
 
 export default router;
