@@ -4,6 +4,7 @@ import passport from 'passport';
 import './src/config/passport_google_oauth2';
 import logger from 'morgan';
 import signupRouter from './src/routes/signup';
+import projectRouter from './src/routes/project';
 
 const app = express();
 
@@ -27,5 +28,6 @@ if (process.env.ENV === 'development') {
 }
 
 app.use('/auth', signupRouter);
+app.use('/projects', projectRouter);
 
 export default app;
