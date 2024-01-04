@@ -1,10 +1,10 @@
 {
   "scripts": {
     "build": "tsc",
-    "start": "npm run prismaGenerate && tsc && node lib/index.js",
+    "start": "npm run prismaGenerate && tsc && node lib/server.js",
     "start:dev": "nodemon",
     "prismaMigrate": "prisma migrate dev",
-    "prismaGenerate": "prisma generate dev",
+    "prismaGenerate": "prisma generate --schema=./src/prisma/schema.prisma",
     "dbPush": "prisma db push"
   },
   "dependencies": {
