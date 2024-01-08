@@ -5,8 +5,10 @@ import './src/config/passport_google_oauth2';
 import logger from 'morgan';
 import signupRouter from './src/routes/signup';
 import projectRouter from './src/routes/project';
+import connectPgSimple from 'connect-pg-simple';
 
 const app = express();
+const pgSession = connectPgSimple(session);
 
 app.use(express.json());
 
@@ -17,7 +19,7 @@ app.use(
         resave: false,
         saveUninitialized: true,
         cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 },
-        // store: process.env.SESSION_DB_URL ?? '',
+        store: new pgSession({ createTableIfMissing: true }),
     }),
 );
 
