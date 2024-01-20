@@ -21,6 +21,8 @@ model User {
   Comments           Comments[]
   Votes              Votes[]
   Projects           Projects[]
+
+  @@map(name: "User")
 }
 
 //Comments model
