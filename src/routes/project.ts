@@ -1,11 +1,9 @@
-import { Router, Request, Response } from 'express';
-import { createProject } from '../controller/project';
+import { Router } from 'express';
+import { createProjectController } from '../controller/project';
+import { asyncTryCatch } from '../middlewares/asyncTryCatch';
 
 const router = Router();
 
-router.post('/', async (req: Request, res: Response) => {
-    const project = await createProject(req.body);
-    return res.json(project);
-});
+router.post('/', asyncTryCatch(createProjectController));
 
 export default router;
