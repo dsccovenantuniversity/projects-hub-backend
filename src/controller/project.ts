@@ -1,46 +1,53 @@
-import { projectStatus } from '@prisma/client';
 import { prisma } from '../config/prisma';
 import { createProjectDto } from './dtos/project.dto';
+import { responseHandler } from '../utils/reponseHandler';
+import { Request, Response } from 'express';
 //Note that when using this, import projectStatus type or interface for status as it is an enum
+
+export const createProjectController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const project = await createProject(req.body);
+
+    return res.status(200).json(responseHandler({ project }));
+};
+
 export const createProject = async (projectData: createProjectDto) => {
-    try {
-        const tagsToCreate = projectData.tags.map(async (tag) => {
-            const existingTag = await prisma.tags.findFirst({
-                where: {
+    const tagsToCreate = projectData.tags.map(async (tag) => {
+        const existingTag = await prisma.tags.findFirst({
+            where: {
+                name: tag,
+            },
+        });
+        if (existingTag) {
+            return existingTag;
+        } else {
+            return prisma.tags.create({
+                data: {
                     name: tag,
                 },
             });
-            if (existingTag) {
-                return existingTag;
-            } else {
-                return prisma.tags.create({
-                    data: {
-                        name: tag,
-                    },
-                });
-            }
-        });
+        }
+    });
 
-        const createdTags = await Promise.all(tagsToCreate);
+    const createdTags = await Promise.all(tagsToCreate);
 
-        const project = await prisma.projects.create({
-            data: {
-                user_id: projectData.user_id,
-                title: projectData.title,
-                description: projectData.description,
-                status: projectData.status,
-                image_links: projectData.image_links || ['null'],
-                github_link: projectData.github_link || 'null',
-                live_link: projectData.live_link || 'null',
-                tags: {
-                    connect: createdTags.map((tag) => ({ id: tag.id })),
-                },
+    const project = await prisma.projects.create({
+        data: {
+            user_id: projectData.user_id,
+            title: projectData.title,
+            description: projectData.description,
+            status: projectData.status,
+            image_links: projectData.image_links || ['null'],
+            github_link: projectData.github_link || 'null',
+            live_link: projectData.live_link || 'null',
+            tags: {
+                connect: createdTags.map((tag) => ({ id: tag.id })),
             },
-        });
-        return project;
-    } catch (error) {
-        console.log(error);
-    }
+        },
+    });
+    return project;
 };
 // **** these may be transferred to a different module (tags)
 export const getProjectByTag = async (tags: string | string[]) => {
