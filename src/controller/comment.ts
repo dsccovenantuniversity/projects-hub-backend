@@ -26,6 +26,15 @@ export const createCommentController = async (
     return res.status(200).json(responseHandler({ savedComment }));
 };
 
+export const getCommentByProjectIdController = async (
+    req: Request,
+    res: Response,
+) => {
+    const { commentId } = req.body;
+    const comment = await getCommentByProjectId(commentId);
+    res.status(200).json(responseHandler({ comment }));
+};
+
 export const deleteComment = async (id: number) => {
     try {
         const comment = await prisma.comments.delete({
