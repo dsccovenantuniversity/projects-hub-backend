@@ -2,7 +2,7 @@ import { validateNewVote } from '../validators/vote';
 import { prisma } from '../config/prisma';
 import { responseHandler } from '../utils/reponseHandler';
 import { Request, Response } from 'express';
-import { createVote, updateVote } from '../repositories/vote';
+import { createVote, deleteVote, updateVote } from '../repositories/vote';
 
 export const createVoteController =async (
     req: Request,
@@ -27,5 +27,13 @@ export const updateVoteController = async (
 ): Promise<Response> => {
     const { voteId, status } = req.body;
     const vote = await updateVote(voteId, status);
+    return res.status(200).json(responseHandler({ vote }));
+};
+export const deleleteVoteController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const { voteId } = req.body;
+    const vote = await deleteVote(voteId);
     return res.status(200).json(responseHandler({ vote }));
 };
