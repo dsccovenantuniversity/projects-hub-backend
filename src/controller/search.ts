@@ -1,7 +1,7 @@
 import { searchAllUsers } from '../repositories/search';
 import { responseHandler } from '../utils/reponseHandler';
 
-export const searchAllUsersController = async (
+export const searcUsersController = async (
     req: Request,
     res: Response,
 ): Promise<Response> => {
