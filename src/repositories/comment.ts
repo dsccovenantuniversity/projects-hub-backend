@@ -31,3 +31,18 @@ export const getCommentByProjectId = async (commentId: number) => {
 };
 
 
+export const updateComment = async (data: updateCommentByIdDto) => {
+    const currentDate = new Date();
+    const comment = await prisma.comments.update({
+        where: {
+            id: data.commentId,
+        },
+        data: {
+            body: data.body,
+            updated_at: new Date(currentDate.getTime() + 60 * 60 * 1000),
+        },
+    });
+    return comment;
+};
+
+
