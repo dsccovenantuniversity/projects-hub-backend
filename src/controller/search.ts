@@ -1,20 +1,12 @@
-import { prisma } from '../config/prisma';
+import { searchAllUsers } from '../repositories/search';
+import { responseHandler } from '../utils/reponseHandler';
 
-export const searchAllUsers = async (searchQuery: string) => {
-    //gets all users' and sends only the username
-    try {
-        const user = await prisma.user.findMany({
-            where: {
-                username: {
-                    contains: searchQuery,
-                    mode: 'insensitive',
-                },
-            },
-            take: 10,
-            select: { username: true },
-        });
-        return user ;
-    } catch (error) {
-        return error;
-    }
+export const searchAllUsersController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const { searchQuery } = req.body;
+
+    const result = await searchAllUsers(searchQuery);
+    return res.status(200).json(responseHandler({ result }));
 };
