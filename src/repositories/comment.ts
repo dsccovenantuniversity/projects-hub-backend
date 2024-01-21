@@ -1,7 +1,6 @@
 import { prisma } from '../config/prisma';
 import { updateCommentByIdDto } from '../interfaces/comment.dto';
 
-
 export const createComment = async (
     userId: number,
     projectId: number,
@@ -20,7 +19,6 @@ export const createComment = async (
     });
 };
 
-
 export const getCommentByProjectId = async (commentId: number) => {
     const comments = await prisma.comments.findMany({
         where: {
@@ -29,7 +27,6 @@ export const getCommentByProjectId = async (commentId: number) => {
     });
     return comments;
 };
-
 
 export const updateComment = async (data: updateCommentByIdDto) => {
     const currentDate = new Date();
@@ -45,7 +42,6 @@ export const updateComment = async (data: updateCommentByIdDto) => {
     return comment;
 };
 
-
 export const deleteComment = async (commentId: number) => {
     const comment = await prisma.comments.delete({
         where: {
@@ -53,5 +49,4 @@ export const deleteComment = async (commentId: number) => {
         },
     });
     return comment;
-
 };
