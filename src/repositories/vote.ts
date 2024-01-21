@@ -15,3 +15,16 @@ export const createVote = async (data: createVoteDto) => {
         });
         return vote;
     } 
+    export const updateVote = async (id: number, status: boolean) => {
+            const currentDate = new Date();
+            const vote = await prisma.votes.update({
+                where: {
+                    id: id,
+                },
+                data: {
+                    up: status,
+                    updated_at: new Date(currentDate.getTime() + 60 * 60 * 1000),
+                },
+            });
+            return vote;
+    };
