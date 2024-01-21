@@ -29,7 +29,7 @@ export const updateVoteController = async (
     const vote = await updateVote(voteId, status);
     return res.status(200).json(responseHandler({ vote }));
 };
-export const deleleteVoteController = async (
+export const deleteVoteController = async (
     req: Request,
     res: Response,
 ): Promise<Response> => {
