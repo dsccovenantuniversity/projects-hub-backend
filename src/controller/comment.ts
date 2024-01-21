@@ -4,6 +4,7 @@ import { updateCommentByIdDto } from '../interfaces/comment.dto';
 import { validateNewComment } from '../validators/comment';
 import {
     createComment,
+    deleteComment,
     getCommentByProjectId,
     updateComment,
 } from '../repositories/comment';
@@ -34,20 +35,15 @@ export const getCommentByProjectIdController = async (
     const comment = await getCommentByProjectId(commentId);
     res.status(200).json(responseHandler({ comment }));
 };
+
 export const updateCommentController = async (req: Request, res: Response) => {
     const { commentId, body } = req.body;
     const comment = await updateComment({ commentId, body });
     res.status(200).json(responseHandler({ comment }));
 };
-export const deleteComment = async (id: number) => {
-    try {
-        const comment = await prisma.comments.delete({
-            where: {
-                id: id,
-            },
-        });
-        return comment;
-    } catch (error) {
-        return error;
-    }
+
+export const deleteCommentController = async (req: Request, res: Response) => {
+    const { commentId } = req.body;
+    const comment = await deleteComment(commentId);
+    res.status(200).json(responseHandler({ comment }));
 };
