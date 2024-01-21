@@ -20,3 +20,14 @@ export const createComment = async (
     });
 };
 
+
+export const getCommentByProjectId = async (commentId: number) => {
+    const comments = await prisma.comments.findMany({
+        where: {
+            project_id: commentId,
+        },
+    });
+    return comments;
+};
+
+
