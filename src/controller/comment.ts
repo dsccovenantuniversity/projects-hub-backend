@@ -33,17 +33,23 @@ export const getCommentByProjectIdController = async (
 ) => {
     const { commentId } = req.body;
     const comment = await getCommentByProjectId(commentId);
-    res.status(200).json(responseHandler({ comment }));
+    return res.status(200).json(responseHandler({ comment }));
 };
 
-export const updateCommentController = async (req: Request, res: Response) => {
+export const updateCommentController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
     const { commentId, body } = req.body;
     const comment = await updateComment({ commentId, body });
-    res.status(200).json(responseHandler({ comment }));
+    return res.status(200).json(responseHandler({ comment }));
 };
 
-export const deleteCommentController = async (req: Request, res: Response) => {
+export const deleteCommentController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
     const { commentId } = req.body;
     const comment = await deleteComment(commentId);
-    res.status(200).json(responseHandler({ comment }));
+    return res.status(200).json(responseHandler({ comment }));
 };
