@@ -42,7 +42,7 @@ export const findUserbyId = async (id: number) => {
 export const findUserbyGoogleId = async (id: string) => {
     try {
         const user =
-            await prisma.$queryRaw`SELECT * FROM "User" WHERE "google_provider_id" = ${id}`;
+            await prisma.$queryRaw`SELECT * FROM "User" WHERE "google_provider_id" = '${id}'`;
         console.log('Find user by google Id query\n', user);
         console.log('user type: ', typeof user);
 
