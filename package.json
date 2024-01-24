@@ -2,7 +2,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run prismaDeploy && tsc && node lib/server.js",
-    "start:dev": "npm run --watch start",
+    "start:dev": "nodemon",
     "prismaDeploy": "npm run prismaGenerate && prismaMigrateProd",
     "prismaMigrate": "prisma migrate dev",
     "prismaMigrateProd": "npm run prisma migrate deploy --schema=./src/prisma/schema.prisma",
