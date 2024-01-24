@@ -1,6 +1,3 @@
-import { validateUpdatedUser } from '../validators/user';
-import { prisma } from '../config/prisma';
-import { updateUserDetailsDto } from '../interfaces/user.dto';
 import { Request, Response } from 'express';
 import {
     deleteUser,
