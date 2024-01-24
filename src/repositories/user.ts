@@ -41,7 +41,7 @@ export const getAllUsers = async () => {
 };
 
 export const updateUserDetails = async (
-    id: number,
+    userId: number,
     data: updateUserDetailsDto,
 ) => {
     validateUpdatedUser(data);
@@ -49,7 +49,7 @@ export const updateUserDetails = async (
 
     const user = await prisma.user.update({
         where: {
-            id: id,
+            id: userId,
         },
         data: {
             ...data,
@@ -58,10 +58,10 @@ export const updateUserDetails = async (
     });
     return user;
 };
-export const deleteUser = async (id: number) => {
+export const deleteUser = async (userId: number) => {
     const user = await prisma.user.delete({
         where: {
-            id: id,
+            id: userId,
         },
     });
     return user;
