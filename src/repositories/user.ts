@@ -58,3 +58,11 @@ export const updateUserDetails = async (
     });
     return user;
 };
+export const deleteUser = async (id: number) => {
+    const user = await prisma.user.delete({
+        where: {
+            id: id,
+        },
+    });
+    return user;
+};
