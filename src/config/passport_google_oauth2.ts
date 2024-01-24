@@ -9,7 +9,7 @@ import {
     createUser,
     findUserbyGoogleId,
     findUserbyId,
-} from '../controller/user';
+} from '../repositories/user';
 
 passport.serializeUser((user: any, done) => {
     done(null, user.id);
