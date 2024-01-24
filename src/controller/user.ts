@@ -1,98 +1,56 @@
+import { validateUpdatedUser } from '../validators/user';
 import { prisma } from '../config/prisma';
-import { createUserDto, updateUserDetailsDto } from './dtos/user.dto';
+import { updateUserDetailsDto } from '../interfaces/user.dto';
+import { Request, Response } from 'express';
+import {
+    deleteUser,
+    findUserbyId,
+    findUserbyMail,
+    getAllUsers,
+    updateUserDetails,
+} from '../repositories/user';
+import { responseHandler } from '../utils/reponseHandler';
 
-export const createUser = async (data: createUserDto) => {
-    //receives an object data
-    try {
-        const user = await prisma.user.create({
-            data: data,
-        });
-        return user;
-    } catch (error) {
-        return error;
-    }
+export const findUserbyMailController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const { email } = req.body;
+    const user = await findUserbyMail(email);
+    return res.status(200).json(responseHandler({ user }));
 };
 
-export const findUserbyMail = async (email: string) => {
-    try {
-        const user = await prisma.user.findUnique({
-            where: {
-                email: email,
-            },
-        });
-        return user;
-    } catch (error) {
-        return error;
-    }
+export const findUserbyIdController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const { userId } = req.body;
+    const user = await findUserbyId(userId);
+    return res.status(200).json(responseHandler({ user }));
 };
 
-export const findUserbyId = async (id: number) => {
-    try {
-        const user = await prisma.user.findUnique({
-            where: {
-                id: id,
-            },
-        });
-        return user;
-    } catch (error) {
-        return error;
-    }
+export const getAllUsersController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const user = await getAllUsers();
+    return res.status(200).json(responseHandler({ user }));
 };
 
-export const findUserbyGoogleId = async (id: string) => {
-    try {
-        const user = await prisma.user.findUnique({
-            where: {
-                google_provider_id: id,
-            },
-        });
-        return user;
-    } catch (error) {
-        return error;
-    }
+export const updateUserController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const { userId, data } = req.body;
+    const user = await updateUserDetails(userId, data );
+    return res.status(200).json(responseHandler({ user }));
 };
 
-export const getAllUsers = async () => {
-    try {
-        const user = await prisma.user.findMany({
-            select: { username: true },
-        });
-        return user;
-    } catch (error) {
-        return error;
-    }
-};
-
-export const updateUserDetails = async (
-    id: number,
-    data: updateUserDetailsDto,
-) => {
-    try {
-        const currentDate = new Date();
-
-        const user = await prisma.user.update({
-            where: {
-                id: id,
-            },
-            data: {
-                ...data,
-                updated_at: new Date(currentDate.getTime() + 60 * 60 * 1000),
-            },
-        });
-        return user;
-    } catch (error) {
-        return error;
-    }
-};
-export const deleteUser = async (id: number) => {
-    try {
-        const user = await prisma.user.delete({
-            where: {
-                id: id,
-            },
-        });
-        return user;
-    } catch (error) {
-        return error;
-    }
+export const deleteUserController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const { userId } = req.body;
+    const user = await deleteUser(userId);
+    return res.status(200).json(responseHandler({ user }));
 };
