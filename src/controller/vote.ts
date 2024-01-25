@@ -1,50 +1,39 @@
+import { validateNewVote } from '../validators/vote';
 import { prisma } from '../config/prisma';
-import { createVoteDto } from './dtos/vote.dto';
+import { responseHandler } from '../utils/reponseHandler';
+import { Request, Response } from 'express';
+import { createVote, deleteVote, updateVote } from '../repositories/vote';
 
-export const createVote = async (data: createVoteDto) => {
-    try {
-        const vote = await prisma.votes.create({
-            data: {
-                user: {
-                    connect: { id: data.userId },
-                },
-                project: {
-                    connect: { id: data.projectId },
-                },
-                up: data.status,
-            },
-        });
-        return vote;
-    } catch (error) {
-        return error;
+export const createVoteController =async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const { userId, projectId, status } = req.body;
+
+    const { error } = validateNewVote({ userId, projectId, status });
+    if (error) {
+        return res
+            .status(400)
+            .json({ success: false, message: error.details[0].message });
     }
+
+    const savedVote = createVote({userId, projectId, status});
+    return res.status(200).json(responseHandler({ savedVote }));
+
 };
-export const updateVote = async (id: number, status: boolean) => {
-    try {
-        const currentDate = new Date();
-        const vote = await prisma.votes.update({
-            where: {
-                id: id,
-            },
-            data: {
-                up: status,
-                updated_at: new Date(currentDate.getTime() + 60 * 60 * 1000),
-            },
-        });
-        return vote;
-    } catch (error) {
-        return error;
-    }
+export const updateVoteController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const { voteId, status } = req.body;
+    const vote = await updateVote(voteId, status);
+    return res.status(200).json(responseHandler({ vote }));
 };
-export const deleteVote = async (id: number) => {
-    try {
-        const vote = await prisma.votes.delete({
-            where: {
-                id: id,
-            },
-        });
-        return vote;
-    } catch (error) {
-        return error;
-    }
+export const deleteVoteController = async (
+    req: Request,
+    res: Response,
+): Promise<Response> => {
+    const { voteId } = req.body;
+    const vote = await deleteVote(voteId);
+    return res.status(200).json(responseHandler({ vote }));
 };

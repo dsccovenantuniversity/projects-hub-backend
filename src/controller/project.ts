@@ -1,5 +1,5 @@
 import { prisma } from '../config/prisma';
-import { createProjectDto } from './dtos/project.dto';
+import { createProjectDto } from '../interfaces/project.dto';
 import { responseHandler } from '../utils/reponseHandler';
 import { Request, Response } from 'express';
 //Note that when using this, import projectStatus type or interface for status as it is an enum
@@ -14,7 +14,7 @@ export const createProjectController = async (
 };
 
 export const createProject = async (projectData: createProjectDto) => {
-    const tagsToCreate = projectData.tags.map(async (tag) => {
+    const tagsToCreate: any = projectData.tags.map(async (tag) => {
         const existingTag = await prisma.tags.findFirst({
             where: {
                 name: tag,
