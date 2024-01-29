@@ -5,6 +5,7 @@ import './src/config/passport_google_oauth2';
 import logger from 'morgan';
 import signupRouter from './src/routes/signup';
 import projectRouter from './src/routes/project';
+import commentRouter from './src/routes/comment';
 import { sessionStore } from './src/config/session-store';
 import errorHandler from './src/middlewares/errorHandler';
 const app = express();
@@ -35,6 +36,7 @@ if (process.env.ENV === 'development') {
 
 app.use('/auth', signupRouter);
 app.use('/projects', projectRouter);
+app.use('/projects/:id/comments', commentRouter);
 app.use(errorHandler)
 
 export default app;

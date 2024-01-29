@@ -25,7 +25,7 @@ export default function errorHandler(
                     "Something went wrong from our end. Hold on, we're trying to fix it",
                 data: null,
                 error: {
-                    name: process.env.ENV !== 'production' ? error.name : '',
+                    name: process.env.ENV !== 'production' ? error.name : 'Server Error',
                     info: process.env.ENV !== 'production' ? error.message : '',
                 },
             });
