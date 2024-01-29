@@ -19,13 +19,26 @@ export const createComment = async (
     });
 };
 
-export const getCommentByProjectId = async (commentId: number) => {
+export const getAllCommentsByProjectId = async (project_id: number) => {
     const comments = await prisma.comments.findMany({
         where: {
-            project_id: commentId,
+            project_id,
         },
     });
     return comments;
+};
+
+export const getSingleCommentByProjectId = async (
+    project_id: number,
+    commentId: number,
+) => {
+    const comment = await prisma.comments.findFirst({
+        where: {
+            project_id,
+            id: commentId,
+        },
+    });
+    return comment;
 };
 
 export const updateComment = async (data: updateCommentByIdDto) => {
