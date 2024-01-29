@@ -1,11 +1,9 @@
 import { Request, Response } from 'express';
-import { prisma } from '../config/prisma';
-import { updateCommentByIdDto } from '../interfaces/comment.dto';
-import { validateNewComment } from '../validators/comment';
 import {
     createComment,
     deleteComment,
-    getCommentByProjectId,
+    getAllCommentsByProjectId,
+    getSingleCommentByProjectId,
     updateComment,
 } from '../repositories/comment';
 import { responseHandler } from '../utils/reponseHandler';
@@ -14,25 +12,27 @@ export const createCommentController = async (
     req: Request,
     res: Response,
 ): Promise<Response> => {
-    const { userId, projectId, body } = req.body;
-
-    const { error } = validateNewComment({ userId, projectId, body });
-    if (error) {
-        return res
-            .status(400)
-            .json({ success: false, message: error.details[0].message });
-    }
-
+    const { userId, body } = req.body;
+    const projectId = parseInt(req.params.id);
     const savedComment = createComment(userId, projectId, body);
     return res.status(200).json(responseHandler({ savedComment }));
 };
 
-export const getCommentByProjectIdController = async (
+export const getAllCommentsByProjectIdController = async (
     req: Request,
     res: Response,
 ) => {
     const { commentId } = req.body;
-    const comment = await getCommentByProjectId(commentId);
+    const comments = await getAllCommentsByProjectId(commentId);
+    return res.status(200).json(responseHandler({ comments }));
+};
+export const getSingleCommentByProjectIdController = async (
+    req: Request,
+    res: Response,
+) => {
+    const { commentId } = req.body;
+    const project_id = parseInt(req.params.id);
+    const comment = await getSingleCommentByProjectId(project_id, commentId);
     return res.status(200).json(responseHandler({ comment }));
 };
 
