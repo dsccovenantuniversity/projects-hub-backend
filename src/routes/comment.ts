@@ -17,7 +17,7 @@ const router = Router();
 
 router.get('', asyncTryCatch(getAllCommentsByProjectIdController));
 
-router.get('/:comment_id', asyncTryCatch(getSingleCommentByProjectIdController));
+router.get('/:commentId', asyncTryCatch(getSingleCommentByProjectIdController));
 
 router.post(
     '/',
@@ -26,11 +26,11 @@ router.post(
 );
 
 router.put(
-    '/:comment_id',
+    '/:commentId',
     validate(validateUpdatedComment),
     asyncTryCatch(updateCommentController),
 );
 
-router.delete('/:comment_id', asyncTryCatch(deleteCommentController));
+router.delete('/:commentId', asyncTryCatch(deleteCommentController));
 
 export default router;
