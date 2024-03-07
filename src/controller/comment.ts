@@ -22,8 +22,8 @@ export const getAllCommentsByProjectIdController = async (
     req: Request,
     res: Response,
 ) => {
-    const { commentId } = req.body;
-    const comments = await getAllCommentsByProjectId(commentId);
+    const project_id = parseInt(req.params.id);
+    const comments = await getAllCommentsByProjectId(project_id);
     return res.status(200).json(responseHandler({ comments }));
 };
 export const getSingleCommentByProjectIdController = async (
